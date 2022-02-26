@@ -3,7 +3,7 @@
 
 // snes_spc 0.9.0. http://www.slack.net/~ant/
 
-#include "SNES_SPC.h"
+#include "solarus/third_party/snes_spc/SNES_SPC.h"
 
 #if !SPC_NO_COPY_STATE_FUNCS
 

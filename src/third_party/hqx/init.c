@@ -17,7 +17,7 @@
  */
 
 #include <stdint.h>
-#include "hqx/hqx.h"
+#include "solarus/third_party/hqx/hqx.h"
 
 uint32_t   RGBtoYUV[16777216];
 uint32_t   YUV1, YUV2;

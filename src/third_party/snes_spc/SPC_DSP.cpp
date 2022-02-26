@@ -1,8 +1,8 @@
 // snes_spc 0.9.0. http://www.slack.net/~ant/
 
-#include "SPC_DSP.h"
+#include "solarus/third_party/snes_spc/SPC_DSP.h"
 
-#include "blargg_endian.h"
+#include "solarus/third_party/snes_spc/blargg_endian.h"
 #include <string.h>
 
 /* Copyright (C) 2007 Shay Green. This module is free software; you
@@ -16,7 +16,7 @@ details. You should have received a copy of the GNU Lesser General Public
 License along with this module; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
-#include "blargg_source.h"
+#include "solarus/third_party/snes_spc/blargg_source.h"
 
 #ifdef BLARGG_ENABLE_OPTIMIZER
 	#include BLARGG_ENABLE_OPTIMIZER

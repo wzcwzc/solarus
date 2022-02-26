@@ -61,3 +61,13 @@ set_target_properties(solarus PROPERTIES
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   include(cmake/macOS/macOSBuild.cmake)
 endif()
+
+# Include directories acessible for "solarus".
+target_include_directories(solarus
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+  PRIVATE
+    ${PROJECT_SOURCE_DIR}/src
+)

@@ -1,9 +1,9 @@
 // snes_spc 0.9.0. http://www.slack.net/~ant/
 
-#include "spc.h"
+#include "solarus/third_party/snes_spc/spc.h"
 
-#include "SNES_SPC.h"
-#include "SPC_Filter.h"
+#include "solarus/third_party/snes_spc/SNES_SPC.h"
+#include "solarus/third_party/snes_spc/SPC_Filter.h"
 
 /* Copyright (C) 2004-2007 Shay Green. This module is free software; you
 can redistribute it and/or modify it under the terms of the GNU Lesser
@@ -16,7 +16,7 @@ details. You should have received a copy of the GNU Lesser General Public
 License along with this module; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
-#include "blargg_source.h"
+#include "solarus/third_party/snes_spc/blargg_source.h"
 
 SNES_SPC* spc_new( void )
 {

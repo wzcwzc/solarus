@@ -2,7 +2,7 @@
 
 // snes_spc 0.9.0. http://www.slack.net/~ant/
 
-#include "SNES_SPC.h"
+#include "solarus/third_party/snes_spc/SNES_SPC.h"
 
 #include <string.h>
 
@@ -17,7 +17,7 @@ details. You should have received a copy of the GNU Lesser General Public
 License along with this module; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
-#include "blargg_source.h"
+#include "solarus/third_party/snes_spc/blargg_source.h"
 
 #define RAM         (m.ram.ram)
 #define REGS        (m.smp_regs [0])

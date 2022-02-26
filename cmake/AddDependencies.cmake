@@ -7,7 +7,7 @@ option(SOLARUS_USE_LUAJIT "Use LuaJIT instead of default Lua (recommended)" ON)
 set(OpenGL_GL_PREFERENCE GLVND)
 
 # Find dependencies.
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules/")
 find_package(SDL2 "2.0.6" REQUIRED)
 if(SDL2_VERSION_STRING VERSION_EQUAL 2.0.10)
   message(WARNING "SDL2 2.0.10 has known PNG transparency issues that affect Solarus graphics, please upgrade or downgrade your SDL2 version.")

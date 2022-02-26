@@ -19,8 +19,8 @@
  */
 
 #include <stdint.h>
-#include "hqx/common.h"
-#include "hqx/hqx.h"
+#include "solarus/third_party/hqx/common.h"
+#include "solarus/third_party/hqx/hqx.h"
 
 #define PIXEL00_0     *dp = w[5];
 #define PIXEL00_10    *dp = Interp1(w[5], w[1]);

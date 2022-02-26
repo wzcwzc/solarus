@@ -1,6 +1,6 @@
 // snes_spc 0.9.0. http://www.slack.net/~ant/
 
-#include "SPC_Filter.h"
+#include "solarus/third_party/snes_spc/SPC_Filter.h"
 
 #include <string.h>
 
@@ -15,7 +15,7 @@ details. You should have received a copy of the GNU Lesser General Public
 License along with this module; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
-#include "blargg_source.h"
+#include "solarus/third_party/snes_spc/blargg_source.h"
 
 void SPC_Filter::clear() { memset( ch, 0, sizeof ch ); }
 

@@ -724,13 +724,10 @@ int LuaContext::game_api_get_values(lua_State* l) {
   return state_boundary_handle(l, [&] {
     Savegame& game = *check_game(l, 1);
     // ...
-    lua_newtable(l);
+    const auto& saved_values = game.get_saved_values();
+    lua_createtable(l, 0, saved_values.size());
     // ... table
-    for (auto & pair : game.get_saved_values()) {
-      // Means this is one of the internal savegame values:
-      if ('_' == pair.first[0]) {
-        continue;
-      }
+    for (auto & pair : saved_values) {
       switch (pair.second.type) {
       case Savegame::SavedValue::VALUE_STRING:
         lua_pushlstring(l, pair.second.string_data.c_str(),

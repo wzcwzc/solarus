@@ -23,6 +23,7 @@
 #include "solarus/lua/LuaData.h"
 #include <iosfwd>
 #include <string>
+#include <vector>
 
 struct lua_State;
 
@@ -48,57 +49,94 @@ class SOLARUS_API QuestProperties : public LuaData {
     bool export_to_lua(std::ostream& out) const override;
 
     std::pair<int, int> get_solarus_version_major_minor() const;
-    std::string get_solarus_version() const;
+    const std::string& get_solarus_version() const;
     void set_solarus_version(const std::string& solarus_version);
-    std::string get_quest_write_dir() const;
+
+    const std::string& get_quest_write_dir() const;
     void set_quest_write_dir(const std::string& quest_write_dir);
-    std::string get_title() const;
+
+    const std::string& get_title() const;
     void set_title(const std::string& title);
-    std::string get_short_description() const;
+
+    const std::string& get_short_description() const;
     void set_short_description(const std::string& short_description);
-    std::string get_long_description() const;
+
+    const std::string& get_long_description() const;
     void set_long_description(const std::string& long_description);
-    std::string get_author() const;
+
+    const std::string& get_author() const;
     void set_author(const std::string& author);
-    std::string get_quest_version() const;
+
+    const std::string& get_quest_version() const;
     void set_quest_version(const std::string& quest_version);
-    std::string get_release_date() const;
+
+    const std::string& get_release_date() const;
     void set_release_date(const std::string& release_date);
-    std::string get_website() const;
+
+    const std::string& get_website() const;
     void set_website(const std::string& website);
-    Size get_normal_quest_size() const;
+
+    const Size& get_normal_quest_size() const;
     void set_normal_quest_size(const Size& normal_quest_size);
-    Size get_min_quest_size() const;
+
+    const Size& get_min_quest_size() const;
     void set_min_quest_size(const Size& min_quest_size);
-    Size get_max_quest_size() const;
+
+    const Size& get_max_quest_size() const;
     void set_max_quest_size(const Size& max_quest_size);
+
+    const std::string& get_license() const;
+    void set_license(const std::string& license);
+
+    const std::vector<std::string>& get_languages() const;
+    void set_languages(const std::vector<std::string>& languages);
+
+    uint64_t get_min_players() const;
+    void set_min_players(uint64_t min_players);
+
+    uint64_t get_max_players() const;
+    void set_max_players(uint64_t max_players);
+
+    const std::string& get_genre() const;
+    void set_genre(const std::string& genre);
 
     bool is_dynamic_timestep() const;
     void set_dynamic_timestep(bool dynamic);
+
     bool is_subpixel_camera() const;
     void set_subpixel_camera(bool subpixel);
 
   private:
 
-    std::string solarus_version;       /**< Version of Solarus the quest is
-                                        * compatible with. */
-    std::string quest_write_dir;       /**< Directory where to save files of
-                                        * the quest, relative to
-                                        * FileTools::get_base_write_dir(). */
-    std::string title;                 /**< Title of the quest. */
-    std::string short_description;     /**< One-line description of the quest. */
-    std::string long_description;      /**< Longer description of the quest. */
-    std::string author;                /**< Who created the quest. */
-    std::string quest_version;         /**< Version of the quest. */
-    std::string release_date;          /**< Date of the last quest release
-                                        * (YYYY-MM-DD). */
-    std::string website;               /**< URL of the quest website. */
-    Size normal_quest_size;            /**< Default quest size. */
-    Size min_quest_size;               /**< Minimum quest size. */
-    Size max_quest_size;               /**< Maximum quest size. */
+    std::string solarus_version;         /**< Version of Solarus the quest is
+                                          * compatible with. */
+    std::string quest_write_dir;         /**< Directory where to save files of
+                                          * the quest, relative to
+                                          * FileTools::get_base_write_dir(). */
+    std::string title;                   /**< Title of the quest. */
+    std::string short_description;       /**< One-line description of the
+                                          * quest. */
+    std::string long_description;        /**< Longer description of the
+                                          * quest. */
+    std::string author;                  /**< Who created the quest. */
+    std::string quest_version;           /**< Version of the quest. */
+    std::string release_date;            /**< Date of the last quest release
+                                          * (YYYY-MM-DD). */
+    std::string website;                 /**< URL of the quest website. */
+    Size normal_quest_size;              /**< Default quest size. */
+    Size min_quest_size;                 /**< Minimum quest size. */
+    Size max_quest_size;                 /**< Maximum quest size. */
+    std::string license;                 /**< License. */
+    std::vector<std::string> languages;  /**< Languages the quest is translated
+                                          * in. */
+    uint64_t min_players;                /**< Minimum quest player count. */
+    uint64_t max_players;                /**< Maximum quest player count. */
+    std::string genre;                   /**< Genre of the quest. */
 
-    bool use_dynamic_timestep;         /**< Quest requests engine in dynamic timestep */
-    bool use_subpixel_camera;          /**< Quest requests engine to do subpixel camera movement */
+    bool use_dynamic_timestep;           /**< Quest requests engine in dynamic
+                                          * timestep */
+    bool use_subpixel_camera;            /**< Quest requests engine to do
+                                          * subpixel camera movement */
 };
 
 }

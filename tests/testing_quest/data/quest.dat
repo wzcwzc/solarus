@@ -12,5 +12,12 @@ This is not a playable game, but a quest that contains automated tests for the S
   normal_quest_size = "320x240",
   min_quest_size = "320x240",
   max_quest_size = "320x240",
+  license = "GPL v3",
+  languages = { "fr", "en", "es" },
+  min_players = 1,
+  max_players = 4,
+  genre = "Test",
+  dynamic_timestep = false,
+  subpixel_camera = false
 }
 

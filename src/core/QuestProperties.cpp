@@ -23,6 +23,7 @@
 #include <lua.hpp>
 #include <ostream>
 #include <sstream>
+#include <numeric>
 
 namespace Solarus {
 
@@ -75,6 +76,15 @@ int l_quest(lua_State* l) {
     const std::string& max_quest_size_string =
         LuaTools::opt_string_field(l, 1, "max_quest_size", normal_quest_size_string);
 
+    const std::string& license =
+        LuaTools::opt_string_field(l, 1, "license", "");
+    const int min_players =
+        LuaTools::opt_int_field(l, 1, "min_players", 1);
+    const int max_players =
+        LuaTools::opt_int_field(l, 1, "max_players", 1);
+    const std::string& genre =
+        LuaTools::opt_string_field(l, 1, "genre", "");
+
     const bool use_subpixel_camera =
         LuaTools::opt_boolean_field(l, 1, "subpixel_camera", false);
 
@@ -90,8 +100,30 @@ int l_quest(lua_State* l) {
     properties.set_website(website);
     properties.set_quest_version(quest_version);
     properties.set_release_date(release_date);
+    properties.set_license(license);
+    properties.set_min_players(static_cast<uint64_t>(min_players));
+    properties.set_max_players(static_cast<uint64_t>(max_players));
+    properties.set_genre(genre);
     properties.set_dynamic_timestep(use_dynamic_timestep);
     properties.set_subpixel_camera(use_subpixel_camera);
+
+    std::vector<std::string> languages;
+    lua_settop(l, 1);
+    lua_getfield(l, 1, "languages");
+    if (lua_istable(l, 2)) {
+      lua_pushnil(l);
+      while (lua_next(l, 2) != 0) {
+        languages.push_back(LuaTools::check_string(l, 4));
+        lua_pop(l, 1);
+      }
+    }
+    else {
+      LuaTools::type_error(l, 2, "table");
+    }
+    lua_pop(l, 1);
+    SOLARUS_REQUIRE(lua_gettop(l) == 1, "Invalid stack when parsing quest languages");
+
+    properties.set_languages(languages);
 
     Size normal_quest_size, min_quest_size, max_quest_size;
     bool success = Video::parse_size(normal_quest_size_string, normal_quest_size);
@@ -156,6 +188,11 @@ bool QuestProperties::import_from_lua(lua_State* l) {
  * \copydoc LuaData::export_to_lua
  */
 bool QuestProperties::export_to_lua(std::ostream& out) const {
+  constexpr auto list_separator = ", ";
+  const auto language_list = languages.empty()
+    ? ""
+    : std::accumulate(++languages.begin(), languages.end(),*languages.begin(),
+        [&list_separator](auto&& a, auto&& b) -> auto& { a += list_separator; a += b; return a; });
 
   out << "quest{\n"
       << "  solarus_version = \"" << solarus_version << "\",\n"
@@ -170,6 +207,11 @@ bool QuestProperties::export_to_lua(std::ostream& out) const {
       << "  normal_quest_size = \"" << normal_quest_size.width << 'x' << normal_quest_size.height << "\",\n"
       << "  min_quest_size = \"" << min_quest_size.width << 'x' << min_quest_size.height << "\",\n"
       << "  max_quest_size = \"" << max_quest_size.width << 'x' << max_quest_size.height << "\",\n"
+      << "  license = \"" << escape_string(license) << "\",\n"
+      << "  languages = {" << language_list << "},\n"
+      << "  min_players = " << min_players << ",\n"
+      << "  max_players = " << max_players << ",\n"
+      << "  genre = \"" << escape_string(genre) << "\",\n"
       << "  dynamic_timestep = " << (use_dynamic_timestep ? "true" : "false") << ",\n"
       << "  subpixel_camera = " << (use_subpixel_camera ? "true" : "false") << ",\n"
       << "}\n\n";
@@ -208,7 +250,7 @@ std::pair<int, int> QuestProperties::get_solarus_version_major_minor() const {
  * \brief Returns the Solarus compatibility version of the quest.
  * \return The "solarus_version" value.
  */
-std::string QuestProperties::get_solarus_version() const {
+const std::string& QuestProperties::get_solarus_version() const {
   return solarus_version;
 }
 
@@ -224,7 +266,7 @@ void QuestProperties::set_solarus_version(const std::string& solarus_version) {
  * \brief Returns the quest write directory.
  * \return The "write_dir" value.
  */
-std::string QuestProperties::get_quest_write_dir() const {
+const std::string& QuestProperties::get_quest_write_dir() const {
   return quest_write_dir;
 }
 
@@ -240,7 +282,7 @@ void QuestProperties::set_quest_write_dir(const std::string& quest_write_dir) {
  * \brief Returns the title of the quest.
  * \return The "title" value.
  */
-std::string QuestProperties::get_title() const {
+const std::string& QuestProperties::get_title() const {
   return title;
 }
 
@@ -256,7 +298,7 @@ void QuestProperties::set_title(const std::string& title) {
  * \brief Returns the one-line description of the quest.
  * \return The "short_description" value.
  */
-std::string QuestProperties::get_short_description() const {
+const std::string& QuestProperties::get_short_description() const {
   return short_description;
 }
 
@@ -272,7 +314,7 @@ void QuestProperties::set_short_description(const std::string& short_description
  * \brief Returns the longer description of the quest.
  * \return The "long_description" value.
  */
-std::string QuestProperties::get_long_description() const {
+const std::string& QuestProperties::get_long_description() const {
   return long_description;
 }
 
@@ -288,7 +330,7 @@ void QuestProperties::set_long_description(const std::string& long_description) 
  * \brief Returns the author of the quest.
  * \return The "author" value.
  */
-std::string QuestProperties::get_author() const {
+const std::string& QuestProperties::get_author() const {
   return author;
 }
 
@@ -304,7 +346,7 @@ void QuestProperties::set_author(const std::string& author) {
  * \brief Returns the version of the quest.
  * \return The "quest_version" value.
  */
-std::string QuestProperties::get_quest_version() const {
+const std::string& QuestProperties::get_quest_version() const {
   return quest_version;
 }
 
@@ -320,7 +362,7 @@ void QuestProperties::set_quest_version(const std::string& quest_version) {
  * \brief Returns the release date of the quest.
  * \return The "release_date" value.
  */
-std::string QuestProperties::get_release_date() const {
+const std::string& QuestProperties::get_release_date() const {
   return release_date;
 }
 
@@ -336,7 +378,7 @@ void QuestProperties::set_release_date(const std::string& release_date) {
  * \brief Returns the website of the quest.
  * \return The "website" value.
  */
-std::string QuestProperties::get_website() const {
+const std::string& QuestProperties::get_website() const {
   return website;
 }
 
@@ -352,7 +394,7 @@ void QuestProperties::set_website(const std::string& website) {
  * \brief Returns the default quest size.
  * \return The "normal_quest_size" value.
  */
-Size QuestProperties::get_normal_quest_size() const {
+const Size& QuestProperties::get_normal_quest_size() const {
   return normal_quest_size;
 }
 
@@ -368,7 +410,7 @@ void QuestProperties::set_normal_quest_size(const Size& normal_quest_size) {
  * \brief Returns the minimum quest size.
  * \return The "min_quest_size" value.
  */
-Size QuestProperties::get_min_quest_size() const {
+const Size& QuestProperties::get_min_quest_size() const {
   return min_quest_size;
 }
 
@@ -384,7 +426,7 @@ void QuestProperties::set_min_quest_size(const Size& min_quest_size) {
  * \brief Returns the maximum quest size.
  * \return The "max_quest_size" value.
  */
-Size QuestProperties::get_max_quest_size() const {
+const Size& QuestProperties::get_max_quest_size() const {
   return max_quest_size;
 }
 
@@ -394,6 +436,46 @@ Size QuestProperties::get_max_quest_size() const {
  */
 void QuestProperties::set_max_quest_size(const Size& max_quest_size) {
   this->max_quest_size = max_quest_size;
+}
+
+const std::string& QuestProperties::get_license() const {
+  return license;
+}
+
+void QuestProperties::set_license(const std::string& license) {
+  this->license = license;
+}
+
+const std::vector<std::string>& QuestProperties::get_languages() const {
+  return languages;
+}
+
+void QuestProperties::set_languages(const std::vector<std::string>& languages) {
+  this->languages = languages;
+}
+
+uint64_t QuestProperties::get_min_players() const {
+  return min_players;
+}
+
+void QuestProperties::set_min_players(uint64_t min_players) {
+  this->min_players = min_players;
+}
+
+uint64_t QuestProperties::get_max_players() const {
+  return max_players;
+}
+
+void QuestProperties::set_max_players(uint64_t max_players) {
+  this->max_players = max_players;
+}
+
+const std::string& QuestProperties::get_genre() const {
+  return genre;
+}
+
+void QuestProperties::set_genre(const std::string& genre) {
+  this->genre = genre;
 }
 
 bool QuestProperties::is_dynamic_timestep() const {

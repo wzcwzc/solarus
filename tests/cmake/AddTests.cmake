@@ -1,6 +1,7 @@
 # Sources in the 'src/tests' directory that are a test with a main() function
 list(APPEND TEST_SOURCES
   src/tests/Initialization.cpp
+  src/tests/QuestProperties.cpp
   src/tests/MapData.cpp
   src/tests/LanguageData.cpp
   src/tests/PathFinding.cpp

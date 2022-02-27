@@ -24,5 +24,4 @@ while read -r map; do
    exit 1
   fi
 done
-echo "All tests successful"
 

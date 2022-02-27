@@ -20,8 +20,7 @@ This release adds new features but does not introduce any incompatibility.
 
 ### Solarus launcher GUI changes
 
-* Fix Quest Runner not working on Windows when binaries are under Unicode paths.
-* Add error reporting to the Quest Runner process manager.
+* Remove Solarus Launcher from this repository.
 
 ## Solarus 1.6.5 (2021-04-06)
 

@@ -76,8 +76,10 @@ QuestRunner::~QuestRunner() {
 /**
  * @brief Creates and returns the list of arguments to pass to the process.
  * @param quest_path The path of the quest to run.
+ * @param map_id A map to run, or an empty string to run the quest normally.
  */
-QStringList QuestRunner::create_arguments(const QString& quest_path) const {
+QStringList QuestRunner::create_arguments(
+    const QString& quest_path, const QString& map_id) const {
 
   QStringList arguments;
 
@@ -85,7 +87,10 @@ QStringList QuestRunner::create_arguments(const QString& quest_path) const {
 
   // -run quest_path
   arguments << "-run";
-  arguments << quest_path;
+
+  if (!map_id.isEmpty()) {
+    arguments << QString("-map=%1").arg(map_id);
+  }
 
   // no-audio
   if (settings.value("no_audio", false).toBool()) {
@@ -142,12 +147,14 @@ bool QuestRunner::is_running() const {
 /**
  * @brief Runs a specific quest.
  * @param quest_path The path of the quest to run.
+ * @param map_id A map to run, or an empty string to run the quest normally.
+ *
  * Does nothing if the path is empty or if a quest is already running.
  *
  * This function returns immediately.
  * The signal running() is emitted when the process actually runs.
  */
-void QuestRunner::start(const QString& quest_path) {
+void QuestRunner::start(const QString& quest_path, const QString& map_id) {
 
   if (quest_path.isEmpty()) {
     return;
@@ -159,10 +166,9 @@ void QuestRunner::start(const QString& quest_path) {
 
   // Run the current executable itself with the special option "-run quest_path".
   QString program_name = QApplication::applicationFilePath();
-  QStringList arguments = create_arguments(quest_path);
+  QStringList arguments = create_arguments(quest_path, map_id);
 
   process.start(program_name, arguments);
-
 }
 
 /**

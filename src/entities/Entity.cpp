@@ -1818,7 +1818,6 @@ void Entity::stop_stream_action() {
 
   old_stream_actions.emplace_back(std::move(stream_action));
   stream_action = nullptr;
-  check_collision_with_detectors();
 }
 
 /**
@@ -1838,6 +1837,7 @@ void Entity::update_stream_action() {
     get_stream_action()->update();
     if (get_stream_action() != nullptr && !get_stream_action()->is_active()) {
       stop_stream_action();
+      check_collision_with_detectors();
     }
   }
   clear_old_stream_actions();

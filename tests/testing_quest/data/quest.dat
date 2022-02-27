@@ -18,6 +18,6 @@ This is not a playable game, but a quest that contains automated tests for the S
   max_players = 4,
   genre = "Test",
   dynamic_timestep = false,
-  subpixel_camera = false
+  subpixel_camera = false,
 }
 

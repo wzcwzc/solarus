@@ -22,6 +22,7 @@
 #include <fstream>
 #include <ostream>
 #include <sstream>
+#include <numeric>
 
 namespace Solarus {
 
@@ -261,6 +262,40 @@ std::string LuaData::unescape_multiline_string(std::string value) {
   }
 
   return value;
+}
+
+/**
+ * \brief Returns an original string that can be used to export to Lua.
+ * \param value The string value to export.
+ * \return The exportable string value.
+ */
+std::string LuaData::to_lua_string(const std::string& value) {
+  return '\"' + LuaData::escape_string(value) + '\"';
+}
+
+/**
+ * \brief Returns an original string that can be used to export a string list to Lua.
+ * \param value The string value to export.
+ * \return The exportable string value.
+ */
+std::string LuaData::to_lua_string_list(const std::vector<std::string>& value) {
+  constexpr auto list_separator = ", ";
+
+  if (value.empty())
+    return "";
+
+  const auto string_list = std::accumulate(++value.begin(), value.end(),
+    to_lua_string(*value.begin()),
+    [&list_separator](auto&& a, auto&& b) -> auto& {
+      a += list_separator;
+      a += to_lua_string(b);
+      return a;
+    });
+  return "{ " + string_list + " }";
+}
+
+std::string LuaData::to_lua_multiline_string(const std::string& value) {
+  return "[[\n" + escape_multiline_string(value) + "]]";
 }
 
 /**

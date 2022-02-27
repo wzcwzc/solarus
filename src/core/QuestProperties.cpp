@@ -23,7 +23,6 @@
 #include <lua.hpp>
 #include <ostream>
 #include <sstream>
-#include <numeric>
 
 namespace Solarus {
 
@@ -188,30 +187,25 @@ bool QuestProperties::import_from_lua(lua_State* l) {
  * \copydoc LuaData::export_to_lua
  */
 bool QuestProperties::export_to_lua(std::ostream& out) const {
-  constexpr auto list_separator = ", ";
-  const auto language_list = languages.empty()
-    ? ""
-    : std::accumulate(++languages.begin(), languages.end(),*languages.begin(),
-        [&list_separator](auto&& a, auto&& b) -> auto& { a += list_separator; a += b; return a; });
 
   out << "quest{\n"
-      << "  solarus_version = \"" << solarus_version << "\",\n"
-      << "  write_dir = \"" << escape_string(quest_write_dir) << "\",\n"
-      << "  title = \"" << escape_string(title) << "\",\n"
-      << "  short_description = \"" << escape_string(short_description) << "\",\n"
-      << "  long_description = [[\n" << escape_multiline_string(long_description) << "]],\n"
-      << "  author = \"" << escape_string(author) << "\",\n"
-      << "  quest_version = \"" << escape_string(quest_version) << "\",\n"
-      << "  release_date = \"" << escape_string(release_date) << "\",\n"
-      << "  website = \"" << escape_string(website) << "\",\n"
+      << "  solarus_version = " << to_lua_string(solarus_version) << ",\n"
+      << "  write_dir = " << to_lua_string(quest_write_dir) << ",\n"
+      << "  title = " << to_lua_string(title) << ",\n"
+      << "  short_description = " << to_lua_string(short_description) << ",\n"
+      << "  long_description = " << to_lua_multiline_string(long_description) << ",\n"
+      << "  author = " << to_lua_string(author) << ",\n"
+      << "  quest_version = " << to_lua_string(quest_version) << ",\n"
+      << "  release_date = " << to_lua_string(release_date) << ",\n"
+      << "  website = " << to_lua_string(website) << ",\n"
       << "  normal_quest_size = \"" << normal_quest_size.width << 'x' << normal_quest_size.height << "\",\n"
       << "  min_quest_size = \"" << min_quest_size.width << 'x' << min_quest_size.height << "\",\n"
       << "  max_quest_size = \"" << max_quest_size.width << 'x' << max_quest_size.height << "\",\n"
-      << "  license = \"" << escape_string(license) << "\",\n"
-      << "  languages = {" << language_list << "},\n"
+      << "  license = " << to_lua_string(license) << ",\n"
+      << "  languages = " <<  to_lua_string_list(languages) << ",\n"
       << "  min_players = " << min_players << ",\n"
       << "  max_players = " << max_players << ",\n"
-      << "  genre = \"" << escape_string(genre) << "\",\n"
+      << "  genre = " << to_lua_string(genre) << ",\n"
       << "  dynamic_timestep = " << (use_dynamic_timestep ? "true" : "false") << ",\n"
       << "  subpixel_camera = " << (use_subpixel_camera ? "true" : "false") << ",\n"
       << "}\n\n";

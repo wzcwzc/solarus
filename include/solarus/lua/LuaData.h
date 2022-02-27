@@ -20,6 +20,7 @@
 #include "solarus/core/Common.h"
 #include <iosfwd>
 #include <string>
+#include <vector>
 
 struct lua_State;
 
@@ -51,6 +52,9 @@ class SOLARUS_API LuaData {
     static std::string escape_string(std::string value);
     static std::string escape_multiline_string(std::string value);
     static std::string unescape_multiline_string(std::string value);
+    static std::string to_lua_string(const std::string& value);
+    static std::string to_lua_string_list(const std::vector<std::string>& value);
+    static std::string to_lua_multiline_string(const std::string& value);
 
     void export_multiline_string(
         const std::string& field_name,

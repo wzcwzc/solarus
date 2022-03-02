@@ -40,7 +40,7 @@ public:
 
 public slots:
 
-  void start(const QString& quest_path);
+  void start(const QString& quest_path, const QString& map_id = "");
   void stop();
 
 signals:
@@ -58,7 +58,7 @@ private slots:
 
 private:
 
-  QStringList create_arguments(const QString& quest_path) const;
+  QStringList create_arguments(const QString& quest_path, const QString& map_id) const;
   QStringList get_quest_lua_commands_from_settings() const;
 
   QProcess process;     /**< The Solarus process. */

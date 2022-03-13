@@ -7,6 +7,7 @@ quest{
 This is not a playable game, but a quest that contains automated tests for the Solarus engine. Each map is a unit test.]],
   author = "Christopho",
   quest_version = "",
+  initial_release_date = "20111223",
   release_date = "",
   website = "http://www.solarus-games.org",
   normal_quest_size = "320x240",

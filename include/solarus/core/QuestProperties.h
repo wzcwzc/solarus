@@ -70,6 +70,9 @@ class SOLARUS_API QuestProperties : public LuaData {
     const std::string& get_quest_version() const;
     void set_quest_version(const std::string& quest_version);
 
+    const std::string& get_initial_release_date() const;
+    void set_initial_release_date(const std::string& initial_release_date);
+
     const std::string& get_release_date() const;
     void set_release_date(const std::string& release_date);
 
@@ -121,6 +124,8 @@ class SOLARUS_API QuestProperties : public LuaData {
     std::string author;                  /**< Who created the quest. */
     std::string quest_version;           /**< Version of the quest. */
     std::string release_date;            /**< Date of the last quest release
+                                          * (YYYY-MM-DD). */
+    std::string initial_release_date;    /**< Date of the first quest release
                                           * (YYYY-MM-DD). */
     std::string website;                 /**< URL of the quest website. */
     Size normal_quest_size;              /**< Default quest size. */

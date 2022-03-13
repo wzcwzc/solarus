@@ -63,6 +63,8 @@ int l_quest(lua_State* l) {
         LuaTools::opt_string_field(l, 1, "author", "");
     const std::string& quest_version =
         LuaTools::opt_string_field(l, 1, "quest_version", "");
+    const std::string& initial_release_date =
+        LuaTools::opt_string_field(l, 1, "initial_release_date", "");
     const std::string& release_date =
         LuaTools::opt_string_field(l, 1, "release_date", "");
     const std::string& website =
@@ -98,6 +100,7 @@ int l_quest(lua_State* l) {
     properties.set_author(author);
     properties.set_website(website);
     properties.set_quest_version(quest_version);
+    properties.set_initial_release_date(initial_release_date);
     properties.set_release_date(release_date);
     properties.set_license(license);
     properties.set_min_players(static_cast<uint64_t>(min_players));
@@ -196,6 +199,7 @@ bool QuestProperties::export_to_lua(std::ostream& out) const {
       << "  long_description = " << to_lua_multiline_string(long_description) << ",\n"
       << "  author = " << to_lua_string(author) << ",\n"
       << "  quest_version = " << to_lua_string(quest_version) << ",\n"
+      << "  initial_release_date = " << to_lua_string(initial_release_date) << ",\n"
       << "  release_date = " << to_lua_string(release_date) << ",\n"
       << "  website = " << to_lua_string(website) << ",\n"
       << "  normal_quest_size = \"" << normal_quest_size.width << 'x' << normal_quest_size.height << "\",\n"
@@ -366,6 +370,22 @@ const std::string& QuestProperties::get_release_date() const {
  */
 void QuestProperties::set_release_date(const std::string& release_date) {
   this->release_date = release_date;
+}
+
+/**
+ * \brief Returns the initial release date of the quest (i.e. the release date for v1.0.0).
+ * \return The "initial_release_date" value.
+ */
+const std::string& QuestProperties::get_initial_release_date() const {
+  return initial_release_date;
+}
+
+/**
+ * \brief Sets the initial release date of the quest (i.e. the release date for v1.0.0).
+ * \param initial_release_date The "initial_release_date" value.
+ */
+void QuestProperties::set_initial_release_date(const std::string& initial_release_date) {
+  this->initial_release_date = initial_release_date;
 }
 
 /**

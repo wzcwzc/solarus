@@ -13,7 +13,7 @@ function map:on_started()
       model = 'this-should-not-exist',
     },
     label="Custom entity with nonexistant model.",
-    msg="Invalid custom entity model 'this-should-not-exist'.",
+    msg="bad argument #2 to ? (No such custom entity model: 'this-should-not-exist')",
   }
 
   sol.main.exit()

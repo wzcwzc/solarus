@@ -392,9 +392,6 @@ void LuaContext::run_enemy(Enemy& enemy) {
     // Run it with the enemy userdata as parameter.
     push_enemy(current_l, enemy);
     call_function(1, 0, file_name.c_str());
-  } else {
-    LuaTools::error(current_l, "Invalid enemy breed '" + enemy.get_breed()
-      + "'.");
   }
 }
 
@@ -424,8 +421,6 @@ void LuaContext::run_custom_entity(CustomEntity& custom_entity) {
     // Run it with the entity userdata as parameter.
     push_custom_entity(current_l, custom_entity);
     call_function(1, 0, file_name.c_str());
-  } else {
-    LuaTools::error(current_l, "Invalid custom entity model '" + model + "'.");
   }
 }
 

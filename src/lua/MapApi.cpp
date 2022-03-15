@@ -22,6 +22,7 @@
 #include "solarus/core/EquipmentItem.h"
 #include "solarus/core/Game.h"
 #include "solarus/core/MainLoop.h"
+#include "solarus/core/QuestDatabase.h"
 #include "solarus/core/Savegame.h"
 #include "solarus/core/Map.h"
 #include "solarus/core/ResourceProvider.h"
@@ -722,10 +723,17 @@ int LuaContext::l_create_enemy(lua_State* l) {
   return state_boundary_handle(l, [&] {
     Map& map = *check_map(l, 1);
     EntityData& data = *(static_cast<EntityData*>(lua_touserdata(l, 2)));
+
+    const std::string& breed = data.get_string("breed");
+    const QuestDatabase& database = CurrentQuest::get_database();
+    if (!database.resource_exists(ResourceType::ENEMY, breed)) {
+      LuaTools::arg_error(l, 2, "No such enemy breed: '" + breed + "'");
+    }
+
     Game& game = map.get_game();
     EntityPtr entity = Enemy::create(
         game,
-        data.get_string("breed"),
+        breed,
         entity_creation_check_savegame_variable_optional(l, 1, data, "savegame_variable"),
         data.get_name(),
         entity_creation_check_layer(l, 1, data, map),
@@ -1248,6 +1256,12 @@ int LuaContext::l_create_custom_entity(lua_State* l) {
     Map& map = *check_map(l, 1);
     EntityData& data = *(static_cast<EntityData*>(lua_touserdata(l, 2)));
 
+    const std::string& model = data.get_string("model");
+    const QuestDatabase& database = CurrentQuest::get_database();
+    if (!model.empty() && !database.resource_exists(ResourceType::ENTITY, model)) {
+      LuaTools::arg_error(l, 2, "No such custom entity model: '" + model + "'");
+    }
+
     Game& game = map.get_game();
     EntityPtr entity = std::make_shared<CustomEntity>(
         game,
@@ -1258,7 +1272,7 @@ int LuaContext::l_create_custom_entity(lua_State* l) {
         entity_creation_check_size(l, 1, data),
         Point(data.get_integer("origin_x"), data.get_integer("origin_y")),
         data.get_string("sprite"),
-        data.get_string("model")
+        model
     );
     entity->set_tiled(data.get_boolean("tiled"));
     entity->set_user_properties(data.get_user_properties());
@@ -1460,8 +1474,9 @@ const std::map<EntityType, lua_CFunction> LuaContext::entity_creation_functions 
 /**
  * \brief Creates on the current map an entity from the specified data.
  *
- * Pushes onto the Lua stack the created entity.
- * In case of error, pushes nothing and returns \c false.
+ * This function is meant to be called from C++.
+ * It pushes nothing to Lua and does not raise Lua errors.
+ * In case of failure, it prints an error message.
  *
  * \param map The map where to create an entity.
  * \param entity_data Description of the entity to create.
@@ -1469,17 +1484,28 @@ const std::map<EntityType, lua_CFunction> LuaContext::entity_creation_functions 
  */
 bool LuaContext::create_map_entity_from_data(Map& map, const EntityData& entity_data) {
 
-  const std::string& type_name = enum_to_name(entity_data.get_type());
-  std::string function_name = "create_" + type_name;
-  const auto& it = entity_creation_functions.find(entity_data.get_type());
-  SOLARUS_ASSERT(it != entity_creation_functions.end(),
-      "Missing entity creation function for type '" + type_name + "'");
-  lua_CFunction function = it->second;
-
-  lua_pushcfunction(current_l, function);
+  lua_pushcfunction(current_l, entity_creation_functions.find(entity_data.get_type())->second);
   push_map(current_l, map);
   lua_pushlightuserdata(current_l, const_cast<EntityData*>(&entity_data));
-  return call_function(2, 1, function_name.c_str());
+  return call_function(2, 0, ("create_" + enum_to_name(entity_data.get_type())).c_str());
+}
+
+/**
+ * \brief Creates on the current map an entity from the specified data.
+ *
+ * This function is meant to be called from a Lua API call.
+ * Pushes onto the Lua stack the created entity.
+ * In case of failure, raises a Lua error.
+ *
+ * \param map The map where to create an entity.
+ * \param entity_data Description of the entity to create.
+ */
+void LuaContext::create_map_entity_from_data_to_lua(Map &map, const EntityData &entity_data) {
+
+  lua_pushcfunction(current_l, entity_creation_functions.find(entity_data.get_type())->second);
+  push_map(current_l, map);
+  lua_pushlightuserdata(current_l, const_cast<EntityData*>(&entity_data));
+  lua_call(current_l, 2, 1);
 }
 
 /**
@@ -2434,7 +2460,7 @@ int LuaContext::map_api_create_entity(lua_State* l) {
     }
     const EntityData& data = EntityData::check_entity_data(l, 2, type);
 
-    get().create_map_entity_from_data(map, data);
+    get().create_map_entity_from_data_to_lua(map, data);
 
     return 1;
   });

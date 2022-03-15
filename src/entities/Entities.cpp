@@ -154,9 +154,7 @@ void Entities::create_entities(const MapData& data) {
       if (!EntityTypeInfo::can_be_stored_in_map_file(type)) {
         Debug::error("Illegal entity type in map data: " + enum_to_name(type));
       }
-      if (lua_context.create_map_entity_from_data(map, entity_data)) {
-        lua_pop(lua_context.get_internal_state(), 1);  // Discard the created entity on the stack.
-      }
+      lua_context.create_map_entity_from_data(map, entity_data);
     }
   }
 }

@@ -169,7 +169,6 @@ list(APPEND LUA_TEST_MAPS
   "bugs/1461_tileset_sprite"
   "bugs/1471_pickable_wrong_layer"
   "bugs/1476_crash_command_binding"
-  "bugs/1494_no_error_nonexistant_model"
   "bugs/1508_carried_object_height"
   "bugs/1524_push_delay"
   "bugs/1526_destructible_cut_method"
@@ -185,6 +184,7 @@ list(APPEND LUA_TEST_MAPS
 list(APPEND LUA_TEST_MAPS_NON_FATAL
   "bugs/1015_crash_scrolling_to_invalid_layer/map_1"
   "bugs/1299_crash_invalid_tile_pattern"
+  "bugs/1494_no_error_nonexistant_model"
 )
 
 # Tests that require showing the window

@@ -47,13 +47,17 @@ function map:on_started()
   game:set_value("second", 2)
   game:set_value("third", "three")
 
-  local save0, count0 = strip_reserved(game:get_values())
+  local values0 = game:get_values()
+  assert_equal(values0['_version'], 2)  -- Check a built-in value.
+  local save0, count0 = strip_reserved(values0)
   assert_equal_table(save0, {first = true, second = 2, third = "three"})
 
   game:set_value("second", nil)
   game:set_value("third", "trois")
 
-  local save1, count1 = strip_reserved(game:get_values())
+  local values1 = game:get_values()
+  assert_equal(values1['_version'], 2)
+  local save1, count1 = strip_reserved(values1)
   assert_equal_table(save1, {first = true, third = "trois"})
 
   -- The magic values are likely to change, so just make sure they are stable:

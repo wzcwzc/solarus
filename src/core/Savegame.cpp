@@ -607,5 +607,14 @@ const std::string& Savegame::get_lua_type_name() const {
   return LuaContext::game_module_name;
 }
 
+/**
+ * \brief Get a read-only view of the saved values.
+ * \return A constant reference to the interal store.
+ */
+const std::map<std::string, Savegame::SavedValue>&
+    Savegame::get_saved_values() const {
+  return saved_values;
+}
+
 }
 

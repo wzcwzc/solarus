@@ -141,7 +141,6 @@ class SOLARUS_API Savegame: public ExportableToLua {
     void set_default_transition_style(Transition::Style default_transition_style);
 
     const std::string& get_lua_type_name() const override;*/
-  private:
 
     struct SavedValue {
 
@@ -154,6 +153,10 @@ class SOLARUS_API Savegame: public ExportableToLua {
       std::string string_data;
       int int_data;  // Also used for boolean
     };
+
+    const std::map<std::string, SavedValue>& get_saved_values() const;
+
+  private:
 
     std::map<std::string, SavedValue> saved_values;
     //std::vector<PlayerPtr> players;

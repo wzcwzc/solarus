@@ -393,8 +393,6 @@ void LuaContext::run_enemy(Enemy& enemy) {
     push_enemy(current_l, enemy);
     call_function(1, 0, file_name.c_str());
   }
-
-  // TODO parse Lua only once for each breed.
 }
 
 /**
@@ -424,8 +422,6 @@ void LuaContext::run_custom_entity(CustomEntity& custom_entity) {
     push_custom_entity(current_l, custom_entity);
     call_function(1, 0, file_name.c_str());
   }
-
-  // TODO parse Lua only once for each model.
 }
 
 /**

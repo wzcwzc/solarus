@@ -7,6 +7,8 @@
 * Fix crash when teletransporting to a map without the same layer (#1419).
 * Fix crash when a moving custom entity activates a stream (#1562).
 * Fix separator region detection corner cases (#1425).
+* Fix error reporting when creating entities with a non-existent model (#1494).
+
 
 ### Lua API changes
 

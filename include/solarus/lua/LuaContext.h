@@ -310,6 +310,7 @@ class LuaContext {
     // Entities.
     static const std::string& get_entity_internal_type_name(EntityType entity_type);
     bool create_map_entity_from_data(Map& map, const EntityData& entity_data);
+    void create_map_entity_from_data_to_lua(Map& map, const EntityData& entity_data);
 
     void do_entity_draw_override_function(
         const ScopedLuaRef& draw_override,

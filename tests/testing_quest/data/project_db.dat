@@ -90,6 +90,7 @@ map{ id = "bugs/1458_ground_sprite_when_jumping", description = "#1458: Ground s
 map{ id = "bugs/1461_tileset_sprite", description = "#1461 : Tileset sprite dynamicaly created cause crash" }
 map{ id = "bugs/1471_pickable_wrong_layer", description = "#1471: Pickables fall to the wrong layer" }
 map{ id = "bugs/1476_crash_command_binding", description = "#1476: Crash in game:set_command_keyboard_binding()" }
+map{ id = "bugs/1494_no_error_nonexistant_model", description = "#1494: map:create_custom_entity, no error thrown if nonexistent model is passed" }
 map{ id = "bugs/1508_carried_object_height", description = "#1508 Acessing the item_height value of Carried Objects" }
 map{ id = "bugs/1524_push_delay", description = "!1359 Push state delay" }
 map{ id = "bugs/1526_destructible_cut_method", description = "#1526: destructible:get/set_cut_method()" }
@@ -608,6 +609,8 @@ file{ path = "maps/bugs/1471_pickable_wrong_layer.dat", author = "Christopho", l
 file{ path = "maps/bugs/1471_pickable_wrong_layer.lua", author = "Christopho", license = "GPL v3" }
 file{ path = "maps/bugs/1476_crash_command_binding.dat", author = "Christopho", license = "CC BY-SA 4.0" }
 file{ path = "maps/bugs/1476_crash_command_binding.lua", author = "Christopho", license = "GPL v3" }
+file{ path = "maps/bugs/1494_no_error_nonexistant_model.dat", author = "Cluedrew", license = "CC BY-SA 4.0" }
+file{ path = "maps/bugs/1494_no_error_nonexistant_model.lua", author = "Cluedrew", license = "GPL v3" }
 file{ path = "maps/bugs/1508_carried_object_height.dat", author = "TwilCynder", license = "CC BY-SA 4.0" }
 file{ path = "maps/bugs/1508_carried_object_height.lua", author = "TwilCynder", license = "GPL v3" }
 file{ path = "maps/bugs/1524_push_delay.dat", author = "TwilCynder", license = "CC BY-SA 4.0" }

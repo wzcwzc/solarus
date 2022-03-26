@@ -913,6 +913,7 @@ class LuaContext {
       game_api_get_hero,
       game_api_get_value,
       game_api_set_value,
+      game_api_get_values,
       game_api_get_starting_location,
       game_api_set_starting_location,
       game_api_get_transition_style,

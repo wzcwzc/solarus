@@ -112,7 +112,8 @@ void LuaContext::register_game_module() {
       { "create_camera", game_api_create_camera },
       { "remove_camera", game_api_remove_camera },
       { "get_cameras", game_api_get_cameras },
-      { "get_maps", game_api_get_maps }
+      { "get_maps", game_api_get_maps },
+      { "get_values", game_api_get_values },
   };
 
   const std::vector<luaL_Reg> metamethods = {
@@ -710,6 +711,40 @@ int LuaContext::game_api_set_value(lua_State* l) {
     }
 
     return 0;
+  });
+}
+
+/**
+ * \brief Implementation of game:get_values()
+ * \param l The Lua context that is calling this function.
+ * \return Number of values to return to Lua.
+ */
+int LuaContext::game_api_get_values(lua_State* l) {
+
+  return state_boundary_handle(l, [&] {
+    Savegame& game = *check_game(l, 1);
+    // ...
+    const auto& saved_values = game.get_saved_values();
+    lua_createtable(l, 0, saved_values.size());
+    // ... table
+    for (auto & pair : saved_values) {
+      switch (pair.second.type) {
+      case Savegame::SavedValue::VALUE_STRING:
+        lua_pushlstring(l, pair.second.string_data.c_str(),
+                           pair.second.string_data.size());
+        break;
+      case Savegame::SavedValue::VALUE_INTEGER:
+        lua_pushinteger(l, pair.second.int_data);
+        break;
+      case Savegame::SavedValue::VALUE_BOOLEAN:
+        lua_pushboolean(l, pair.second.int_data);
+        break;
+      }
+      // ... table value
+      lua_setfield(l, -2, pair.first.c_str());
+      // ... table
+    }
+    return 1;
   });
 }
 

@@ -15,11 +15,12 @@
 This release adds new features but does not introduce any incompatibility.
 
 * Allow to stop or pause a sound effect (#1289).
-* Add functions sol.main.rawget/rawset() (#1424).
+* Add functions `sol.main.rawget/rawset()` (#1424).
 * Add a method `destination:is_default()`.
 * Add a method `entity:set_name()` (#1527).
 * Add methods `hero:get/set_push_delay()` (#1524).
 * Add methods `hero:get/set_carry_height()`.
+* Add a method `game:get_values()` (#1552).
 
 ### Solarus launcher GUI changes
 

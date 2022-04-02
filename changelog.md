@@ -8,6 +8,7 @@
 * Fix crash when a moving custom entity activates a stream (#1562).
 * Fix separator region detection corner cases (#1425).
 * Fix error reporting when creating entities with a non-existent model (#1494).
+* Fix custom state direction control when the movement is disallowed (#1565).
 
 
 ### Lua API changes

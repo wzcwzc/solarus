@@ -498,6 +498,9 @@ int CustomState::get_wanted_movement_direction8() const {
   if (!get_can_control_movement()) {
     const std::shared_ptr<const Movement>& movement = get_entity().get_movement();
     if (movement == nullptr) {
+      if (get_can_control_direction()) {
+        return get_commands().get_wanted_direction8();
+      }
       return -1;
     }
     return static_cast<int>((movement->get_angle() + Geometry::PI / 8.0) * 8.0 / Geometry::TWO_PI);
@@ -525,7 +528,7 @@ void CustomState::set_can_control_movement(bool can_control_movement) {
 
   this->can_control_movement = can_control_movement;
 
-  if (is_current_state()) {
+  if (is_current_state() && can_control_movement) {
     start_player_movement();
   }
 }

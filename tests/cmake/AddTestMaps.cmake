@@ -180,6 +180,7 @@ list(APPEND LUA_TEST_MAPS
   "bugs/1550_use_bow"
   "bugs/1552_entire_savegame_access"
   "bugs/1562_crash_entity_on_stream"
+  "bugs/1565_state_set_can_control_direction"
 )
 
 # Test that should succeed when there are non-fatal errors

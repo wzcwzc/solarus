@@ -60,14 +60,7 @@ void initialize() {
     const std::string error_message = lua_tostring(l, -1);
     lua_close(l);
 
-    if (std::string(buffer).find("[info]")) {
-      // Quest format of Solarus 0.9.
-      Debug::die(std::string("This quest is made for Solarus 0.9 but you are running Solarus ")
-          + SOLARUS_VERSION);
-    }
-    else {
-      Debug::die(std::string("Failed to load quest.dat: ") + error_message);
-    }
+    Debug::die(std::string("Failed to load quest.dat: ") + error_message);
   }
 
   // Normal case.

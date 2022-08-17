@@ -669,7 +669,7 @@ bool opt_boolean(
     int index,
     bool default_value
 ) {
-  if (lua_isnoneornil(l, index)) {
+  if (lua_isnone(l, index)) {
     return default_value;
   }
   return check_boolean(l, index);

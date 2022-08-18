@@ -401,7 +401,7 @@ void Entities::get_entities_in_rectangle_z_sorted(
   EntityVector non_const_result = quadtree->get_elements(rectangle);
 
   result.reserve(non_const_result.size());
-  for (const ConstEntityPtr& entity : non_const_result) {
+  for (ConstEntityPtr entity : non_const_result) {
       result.push_back(entity);
   }
 }

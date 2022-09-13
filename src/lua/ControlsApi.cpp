@@ -397,10 +397,12 @@ int LuaContext::controls_api_capture_bindings(lua_State* l) {
  */
 int LuaContext::controls_api_simulate_pressed(lua_State* l) {
   return state_boundary_handle(l, [&]{
-    Controls& cmds = *check_controls(l, 1);
+    ControlsPtr cmds = check_controls(l, 1);
     Command command = check_command(l, 2);
 
-    cmds.command_pressed(command);
+    run_on_main([cmds, command](lua_State*){
+      cmds->command_pressed(command);
+    });
     return 0;
   });
 }
@@ -412,10 +414,12 @@ int LuaContext::controls_api_simulate_pressed(lua_State* l) {
  */
 int LuaContext::controls_api_simulate_released(lua_State* l) {
   return state_boundary_handle(l, [&]{
-    Controls& cmds = *check_controls(l, 1);
+    ControlsPtr cmds = check_controls(l, 1);
     Command command = check_command(l, 2);
 
-    cmds.command_released(command);
+    run_on_main([cmds, command](lua_State*){
+      cmds->command_released(command);
+    });
     return 0;
   });
 }
@@ -427,11 +431,13 @@ int LuaContext::controls_api_simulate_released(lua_State* l) {
  */
 int LuaContext::controls_api_simulate_axis_moved(lua_State* l) {
   return state_boundary_handle(l, [&]{
-    Controls& cmds = *check_controls(l, 1);
+    ControlsPtr cmds = check_controls(l, 1);
     Axis command = check_axis(l, 2);
     double state = LuaTools::check_number(l, 3);
 
-    cmds.command_axis_moved(command, state);
+    run_on_main([cmds, command, state](lua_State*){
+      cmds->command_axis_moved(command, state);
+    });
     return 0;
   });
 }

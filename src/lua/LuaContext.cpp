@@ -299,6 +299,7 @@ bool LuaContext::notify_input(const InputEvent& event) {
  * \return \c true if the event was handled and should stop being propagated.
  */
 bool LuaContext::notify_control(const ControlEvent& event) {
+
   // Call the appropriate callback in sol.main (if it exists).
   const bool handled = main_on_control(event);
   return handled;
@@ -2269,7 +2270,7 @@ bool LuaContext::on_finger_moved(const InputEvent& event) {
  * @return
  */
 bool LuaContext::on_command(const ControlEvent& event) {
-  //check_callback_thread();
+  check_callback_thread();
   bool handled = false;
   if (find_method(event.event_name())) {
     push_string(current_l, event.get_command_or_axis_name());

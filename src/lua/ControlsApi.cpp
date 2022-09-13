@@ -49,7 +49,9 @@ void LuaContext::register_controls_module() {
     { "capture_bindings", controls_api_capture_bindings},
     { "simulate_pressed", controls_api_simulate_pressed},
     { "simulate_released", controls_api_simulate_released},
-    { "simulate_axis_moved", controls_api_simulate_axis_moved}
+    { "simulate_axis_moved", controls_api_simulate_axis_moved},
+    { "set_joypad", controls_api_set_joypad},
+    { "get_joypad", controls_api_get_joypad}
   };
 
   // Metamethods of the commands type
@@ -431,6 +433,43 @@ int LuaContext::controls_api_simulate_axis_moved(lua_State* l) {
 
     cmds.command_axis_moved(command, state);
     return 0;
+  });
+}
+
+/**
+ * \brief Implementation of commands:controls_api_set_joypad.
+ * \param l The Lua context that is calling this function.
+ * \return Number of values to return to Lua.
+ */
+int LuaContext::controls_api_set_joypad(lua_State* l) {
+  return state_boundary_handle(l, [&]{
+    Controls& cmds = *check_controls(l, 1);
+    JoypadPtr joypad;
+    if(!lua_isnil(l, 2)) {
+      joypad = check_joypad(l, 2);
+    }
+
+    cmds.set_joypad(joypad);
+    return 0;
+  });
+}
+
+/**
+ * \brief Implementation of commands:controls_api_get_joypad.
+ * \param l The Lua context that is calling this function.
+ * \return Number of values to return to Lua.
+ */
+int LuaContext::controls_api_get_joypad(lua_State* l) {
+  return state_boundary_handle(l, [&]{
+    Controls& cmds = *check_controls(l, 1);
+    JoypadPtr joypad = cmds.get_joypad();
+
+    if(joypad) {
+      push_joypad(l, *joypad);
+    } else {
+      lua_pushnil(l);
+    }
+    return 1;
   });
 }
 

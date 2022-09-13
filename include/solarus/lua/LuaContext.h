@@ -167,6 +167,7 @@ class LuaContext {
     void exit();
     void update();
     bool notify_input(const InputEvent& event);
+    bool notify_control(const ControlEvent& event);
 
 
     void notify_map_suspended(Map& map, bool suspended);
@@ -360,6 +361,7 @@ class LuaContext {
     void main_on_update();
     void main_on_draw(const SurfacePtr& dst_surface);
     bool main_on_input(const InputEvent& event);
+    bool main_on_control(const ControlEvent& event);
 
     // Video events.
     void video_on_draw(const SurfacePtr& screen);
@@ -1407,6 +1409,8 @@ class LuaContext {
       controls_api_simulate_pressed,
       controls_api_simulate_released,
       controls_api_simulate_axis_moved,
+      controls_api_set_joypad,
+      controls_api_get_joypad,
 
 
       // available to all userdata types

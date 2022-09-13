@@ -679,5 +679,24 @@ bool LuaContext::main_on_input(const InputEvent& event) {
   return handled;
 }
 
+/**
+ * \brief Notifies Lua that an input event has just occurred.
+ *
+ * The appropriate callback in sol.main is triggered if it exists.
+ *
+ * \param event The input event to handle.
+ * \return \c true if the event was handled and should stop being propagated.
+ */
+bool LuaContext::main_on_control(const ControlEvent& event) {
+
+  push_main(current_l);
+  bool handled = on_command(event);
+  if (!handled) {
+    handled = menus_on_command(-1, event);
+  }
+  lua_pop(current_l, 1);
+  return handled;
+}
+
 }
 

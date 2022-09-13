@@ -291,6 +291,21 @@ bool LuaContext::notify_input(const InputEvent& event) {
 }
 
 /**
+ * \brief Notifies Lua that a control event has just occurred.
+ *
+ * The appropriate callback in sol.main is notified.
+ *
+ * \param event The control event to handle.
+ * \return \c true if the event was handled and should stop being propagated.
+ */
+bool LuaContext::notify_control(const ControlEvent& event) {
+
+  // Call the appropriate callback in sol.main (if it exists).
+  const bool handled = main_on_control(event);
+  return handled;
+}
+
+/**
  * \brief Notifies Lua that a map has just been started.
  *
  * The Lua file of this map is automatically loaded.
